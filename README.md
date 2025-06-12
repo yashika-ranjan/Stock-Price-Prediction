@@ -80,9 +80,7 @@ Stock-Estimate/
 
 | Main Dashboard | Prediction Chart  | Metrics |
 |----------------|-------------------|---------|
-| ![UI Screenshot1](https://github.com/yashika-ranjan/Stock-Price-Prediction/blob/main/frontend/public/Main%20Dashboard%201.png)|![UI Screenshot2](https://github.com/yashika-ranjan/Stock-Price-Prediction/blob/main/frontend/public/Main%20Dashboard%202.png)| 
-![UI Screenshot3](https://github.com/yashika-ranjan/Stock-Price-Prediction/blob/main/frontend/public/Prediction%20Chart.png)|
-![UI Screenshot4](https://github.com/yashika-ranjan/Stock-Price-Prediction/blob/main/frontend/public/Metrics.png)|
+| ![UI Screenshot1](https://github.com/yashika-ranjan/Stock-Price-Prediction/blob/main/frontend/public/Main%20Dashboard%201.png)| ![UI Screenshot2](https://github.com/yashika-ranjan/Stock-Price-Prediction/blob/main/frontend/public/Main%20Dashboard%202.png)|![UI Screenshot3](https://github.com/yashika-ranjan/Stock-Price-Prediction/blob/main/frontend/public/Prediction%20Chart.png)|![UI Screenshot4](https://github.com/yashika-ranjan/Stock-Price-Prediction/blob/main/frontend/public/Metrics.png)|
 
 
 ---
