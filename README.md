@@ -37,6 +37,7 @@ Get accurate forecasts, rich metrics (RMSE, MAE, Accuracy), and interactive char
 ---
 
 ##  Project Structure
+```
 Stock-Estimate/
 ├── backend/
 │   ├── app.py                 # Flask server
@@ -67,7 +68,7 @@ Stock-Estimate/
 ├── .gitignore
 └── README.md
 
-
+```
 
 ##  Live Demo
 
