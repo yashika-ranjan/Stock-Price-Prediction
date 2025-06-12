@@ -139,7 +139,7 @@ npm run dev
 
 ##  DEveloper
 
-**Yashika **  
+**Yashika Ranjan**  
  B.Tech CSE, Delhi Technological University (DTU)
 
 ---
