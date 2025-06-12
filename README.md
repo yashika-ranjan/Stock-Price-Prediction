@@ -70,9 +70,6 @@ Stock-Estimate/
 
 ```
 
-##  Live Demo
-
- **Website**: [https://sentiment-analysis-gamma-nine.vercel.app/](https://sentiment-analysis-gamma-nine.vercel.app/)  
 
 ---
 
