@@ -37,38 +37,35 @@ Get accurate forecasts, rich metrics (RMSE, MAE, Accuracy), and interactive char
 ---
 
 ##  Project Structure
-
 Stock-Estimate/
 ├── backend/
-│   ├── app.py                      # Flask server
-│   ├── download_datasets.py        # Downloads the dataset
-│   ├── data/                       # Sample & uploaded CSVs
-│   ├── models/ 
-|   |   ├── train_lstm.py           # Trains LSTM model
-│   |   ├── train_xgb.py            # Trains XGBoost 
-|   |   └── (model)                 # Trained .h5 & .pkl models
+│   ├── app.py                 # Flask server
+│   ├── download_datasets.py  # Downloads the dataset
+│   ├── data/                 # Sample & uploaded CSVs
+│   ├── models/
+│   │   ├── train_lstm.py     # Trains LSTM model
+│   │   ├── train_xgb.py      # Trains XGBoost
+│   │   └── (model)           # Trained .h5 & .pkl models
 │   ├── utils/
-│   │   ├── preprocessing.py        # Cleans + scales input data
-│   │   ├── model_lstm.py           # LSTM inference logic
-│   │   ├── model_xgb.py            # XGBoost inference logic
-│   │   └── metrics.py              # Accuracy, RMSE, MAE
+│   │   ├── preprocessing.py  # Cleans + scales input data
+│   │   ├── model_lstm.py     # LSTM inference logic
+│   │   ├── model_xgb.py      # XGBoost inference logic
+│   │   └── metrics.py        # Accuracy, RMSE, MAE
 │   └── requirements.txt
-│
 ├── frontend/
 │   ├── src/
-│   │   ├── components/             # UI components
-│   │   ├── pages/                  # Home + result screens
-│   │   ├── hooks/                  # Custom form/data hooks
+│   │   ├── components/       # UI components
+│   │   ├── pages/            # Home + result screens
+│   │   ├── hooks/            # Custom form/data hooks
 │   │   ├── main.tsx
 │   │   └── index.css
 │   ├── package.json
-|   ├── tailwind.config.js
-|   ├── tsconfig.json
+│   ├── tailwind.config.js
+│   ├── tsconfig.json
 │   ├── postcss.config.cjs
 │   └── vite.config.ts
-│
 ├── .gitignore
-└── README.md 
+└── README.md
 
 
 
