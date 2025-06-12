@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+  @apply bg-white text-black dark:bg-black dark:text-white;
+  transition: background-color 0.3s, color 0.3s;
+}

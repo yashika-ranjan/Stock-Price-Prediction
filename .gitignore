@@ -1,0 +1,69 @@
+# ========== GENERAL ==========
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+*.swp
+*.lock
+*.pid
+
+# ========== FRONTEND (React + Vite) ==========
+node_modules/
+dist/
+build/
+.cache/
+.vite/
+coverage/
+.env
+.env.local
+*.log
+.vscode/*
+!.vscode/extensions.json
+
+# ========== BACKEND (Flask + ML Models) ==========
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+instance/
+*.egg-info/
+.eggs/
+*.sqlite3
+*.db
+.env
+.env.*
+
+# ML Artifacts
+backend/models/*.pkl
+backend/models/*.h5
+
+# Temp Data (User uploads / scraped / prediction CSVs)
+backend/data/temp_*.csv
+backend/data/uploaded_*.csv
+
+# ========== LOGS ==========
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# === TEST / MISC ===
+*.test.*
+*.spec.*
+coverage/
+*.lock
+
+# ========== IDE/EDITOR/OS ==========
+.idea/
+.vscode/
+.idea/
+*.sw?
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
