@@ -88,7 +88,7 @@ Stock-Estimate/
 ##  How to Run Locally
 
 ###  Backend (Flask)
-
+```
 cd backend
 python -m venv venv
 venv/Scripts/activate
@@ -97,7 +97,7 @@ python app.py
 ```
 
 ###  Frontend (React)
-
+```
 cd frontend
 npm install
 npm run dev
