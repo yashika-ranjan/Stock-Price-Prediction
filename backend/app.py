@@ -45,8 +45,8 @@ def predict():
 
         # === Prediction ===
         if model_type == "lstm":
-            model_path = f"backend/models/lstm_model_{symbol}.h5"
-            scaler_path = f"backend/models/scaler_{symbol}.pkl"
+            model_path = f"models/lstm_model_{symbol}.h5"
+            scaler_path = f"models/scaler_{symbol}.pkl"
 
             if not os.path.exists(model_path) or not os.path.exists(scaler_path):
                 return jsonify({"error": f"LSTM model for {symbol} not trained yet."}), 404
