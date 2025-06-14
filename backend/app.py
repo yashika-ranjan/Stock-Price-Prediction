@@ -1,11 +1,10 @@
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
 import os
 
-# Import utilities
+# === UTILS ===
 from utils.preprocessing import load_and_prepare_data, fetch_latest_data
 from utils.model_lstm import predict_lstm
 from utils.model_xgb import predict_xgb
@@ -20,56 +19,58 @@ def predict():
         data = request.form
         symbol = data.get("stock")
         days = int(data.get("days"))
-        model_type = data.get("model").lower()
+        model_type = data.get("model", "").lower()
         use_latest = data.get("useLatest", "true").lower() == "true"
 
-        # Handle uploaded CSV if provided
+        # Uploaded file support
         custom_file_path = None
         if "file" in request.files:
             uploaded_file = request.files["file"]
-            os.makedirs("backend/data", exist_ok=True)
-            custom_file_path = f"backend/data/uploaded_{symbol}.csv"
+            os.makedirs("data", exist_ok=True)
+            custom_file_path = f"data/uploaded_{symbol}.csv"
             uploaded_file.save(custom_file_path)
             use_latest = False
         elif use_latest:
             df = fetch_latest_data(symbol)
-            temp_path = f"backend/data/temp_{symbol}.csv"
+            temp_path = f"data/temp_{symbol}.csv"
             df.to_csv(temp_path, index=False)
             custom_file_path = temp_path
 
-        # Load and preprocess data
+        # === Load & preprocess ===
         df, close_prices, scaled_data, scaler = load_and_prepare_data(
             symbol=symbol,
             custom_file_path=custom_file_path,
             use_latest=use_latest
         )
 
-        # Run model prediction
+        # === Prediction ===
         if model_type == "lstm":
-            model_path = f"backend/models/lstm_model_{symbol}.h5"
-            scaler_path = f"backend/models/scaler_{symbol}.pkl"
+            model_path = f"models/lstm_model_{symbol}.h5"
+            scaler_path = f"models/scaler_{symbol}.pkl"
+
+            if not os.path.exists(model_path) or not os.path.exists(scaler_path):
+                return jsonify({"error": f"LSTM model for {symbol} not trained yet."}), 404
+
             predictions = predict_lstm(
-                model_path,
-                scaler_path,
-                close_prices,
-                scaled_data,
-                days,
-                use_custom=(custom_file_path is not None or use_latest)
+                model_path, scaler_path, close_prices, scaled_data,
+                days, use_custom=(custom_file_path is not None or use_latest)
             )
             y_true = close_prices[-days:].flatten()
 
-        elif model_type == "xgboost" or model_type == "xgb":
-            model_path = f"backend/models/xgb_model_{symbol}.pkl"
+        elif model_type in ["xgboost", "xgb"]:
+            model_path = f"models/xgb_model_{symbol}.pkl"
+
+            if not os.path.exists(model_path):
+                return jsonify({"error": f"XGBoost model for {symbol} not trained yet."}), 404
+
             predictions, y_true = predict_xgb(
-                model_path,
-                df,
-                days,
+                model_path, df, days,
                 use_custom=(custom_file_path is not None or use_latest)
             )
         else:
             return jsonify({"error": "Invalid model type. Choose 'lstm' or 'xgboost'."}), 400
 
-        # Forecast dates and metrics
+        # === Output ===
         forecast_dates = pd.date_range(df.index[-1], periods=days + 1, freq="D")[1:]
         metrics = evaluate_predictions(
             y_true,
@@ -86,11 +87,20 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
 @app.route("/")
 def health():
     return "✅ QuantPredict Backend Running"
 
+@app.route("/models-status", methods=["GET"])
+def model_status():
+    symbols = ["AAPL", "GOOGL", "META", "MSFT", "NVDA", "TSLA"]
+    statuses = {}
+    for symbol in symbols:
+        statuses[symbol] = {
+            "lstm": os.path.exists(f"models/lstm_model_{symbol}.h5"),
+            "xgboost": os.path.exists(f"models/xgb_model_{symbol}.pkl")
+        }
+    return jsonify(statuses)
 
 if __name__ == "__main__":
     app.run(debug=True)
