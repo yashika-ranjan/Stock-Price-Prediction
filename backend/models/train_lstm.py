@@ -1,4 +1,3 @@
-
 import numpy as np
 import os
 import joblib
@@ -8,6 +7,14 @@ from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from utils.preprocessing import load_and_prepare_data
 
 def train_model(symbol):
+    model_path = f"models/lstm_model_{symbol}.h5"
+    scaler_path = f"models/scaler_{symbol}.pkl"
+
+    # ✅ Skip retraining if model already exists
+    if os.path.exists(model_path) and os.path.exists(scaler_path):
+        print(f"✅ LSTM model for {symbol} already exists. Skipping training.")
+        return
+
     try:
         df, features, scaled, scaler = load_and_prepare_data(symbol=symbol)
 
@@ -16,7 +23,7 @@ def train_model(symbol):
 
         for i in range(sequence_length, len(scaled)):
             X.append(scaled[i - sequence_length:i])
-            y.append(scaled[i][3])  # Close price
+            y.append(scaled[i][3])  # Close price index
 
         X, y = np.array(X), np.array(y)
 
@@ -37,13 +44,13 @@ def train_model(symbol):
         model.fit(X, y, epochs=30, batch_size=32, callbacks=callbacks, verbose=1)
 
         os.makedirs("models", exist_ok=True)
-        model.save(f"models/lstm_model_{symbol}.h5")
-        joblib.dump(scaler, f"models/scaler_{symbol}.pkl")
+        model.save(model_path)
+        joblib.dump(scaler, scaler_path)
 
         print(f"✅ Trained and saved improved LSTM for {symbol}")
 
     except Exception as e:
-        print(f"❌ Error training model for {symbol}: {e}")
+        print(f"❌ Error training LSTM for {symbol}: {e}")
 
 if __name__ == "__main__":
     symbols = ["AAPL", "GOOGL", "META", "MSFT", "NVDA", "TSLA"]
