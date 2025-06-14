@@ -1,13 +1,19 @@
-
 import numpy as np
 import os
 import joblib
 import pandas as pd
 from xgboost import XGBRegressor
-from sklearn.preprocessing import MinMaxScaler
 from utils.preprocessing import load_and_prepare_data
 
 def train_xgb_model(symbol):
+    model_path = f"models/xgb_model_{symbol}.pkl"
+    scaler_path = f"models/xgb_scaler_{symbol}.pkl"
+
+    # ✅ Skip retraining if model already exists
+    if os.path.exists(model_path) and os.path.exists(scaler_path):
+        print(f"✅ XGBoost model for {symbol} already exists. Skipping training.")
+        return
+
     try:
         df, features, scaled, scaler = load_and_prepare_data(symbol=symbol)
 
@@ -27,10 +33,9 @@ def train_xgb_model(symbol):
 
         model.fit(X, y)
 
-        model_dir = "models"
-        os.makedirs(model_dir, exist_ok=True)
-        joblib.dump(model, f"{model_dir}/xgb_model_{symbol}.pkl")
-        joblib.dump(scaler, f"{model_dir}/xgb_scaler_{symbol}.pkl")
+        os.makedirs("models", exist_ok=True)
+        joblib.dump(model, model_path)
+        joblib.dump(scaler, scaler_path)
 
         print(f"✅ Trained and saved improved XGBoost for {symbol}")
 
