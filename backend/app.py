@@ -10,6 +10,25 @@ from utils.model_lstm import predict_lstm
 from utils.model_xgb import predict_xgb
 from utils.metrics import evaluate_predictions
 
+# === AUTO-TRAIN MODELS ON FIRST LAUNCH ===
+from models.train_lstm import train_model as train_lstm_model
+from models.train_xgb import train_xgb_model
+
+# Auto-train if models are not found
+symbols = ["AAPL", "GOOGL", "META", "MSFT", "NVDA", "TSLA"]
+for symbol in symbols:
+    lstm_path = f"models/lstm_model_{symbol}.h5"
+    xgb_path = f"models/xgb_model_{symbol}.pkl"
+
+    if not os.path.exists(lstm_path):
+        print(f"🔄 Training missing LSTM model for {symbol}...")
+        train_lstm_model(symbol)
+
+    if not os.path.exists(xgb_path):
+        print(f"🔄 Training missing XGBoost model for {symbol}...")
+        train_xgb_model(symbol)
+
+# === FLASK APP START ===
 app = Flask(__name__)
 CORS(app)
 
