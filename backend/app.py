@@ -145,7 +145,7 @@ from utils.metrics import evaluate_predictions
 from models.train_lstm import train_model as train_lstm_model
 from models.train_xgb import train_xgb_model
 
-def train_missing_models():
+"""def train_missing_models():
     symbols = ["AAPL", "GOOGL", "META", "MSFT", "NVDA", "TSLA"]
     for symbol in symbols:
         lstm_path = f"models/lstm_model_{symbol}.h5"
@@ -158,6 +158,30 @@ def train_missing_models():
         if not os.path.exists(xgb_path):
             print(f"🔄 Training missing XGBoost model for {symbol}...")
             train_xgb_model(symbol)
+"""
+
+def train_missing_models():
+    symbols = ["AAPL", "GOOGL", "META", "MSFT", "NVDA", "TSLA"]
+    for symbol in symbols:
+        try:
+            lstm_path = f"models/lstm_model_{symbol}.h5"
+            xgb_path = f"models/xgb_model_{symbol}.pkl"
+
+            if not os.path.exists(lstm_path):
+                print(f"🔄 Training missing LSTM model for {symbol}...")
+                train_lstm_model(symbol)
+                print(f"✅ LSTM model for {symbol} trained.")
+            else:
+                print(f"✅ LSTM model for {symbol} already exists.")
+
+            if not os.path.exists(xgb_path):
+                print(f"🔄 Training missing XGBoost model for {symbol}...")
+                train_xgb_model(symbol)
+                print(f"✅ XGBoost model for {symbol} trained.")
+            else:
+                print(f"✅ XGBoost model for {symbol} already exists.")
+        except Exception as e:
+            print(f"❌ Error training models for {symbol}: {str(e)}")
 
 # === FLASK APP START ===
 app = Flask(__name__)
