@@ -277,15 +277,11 @@ def model_status():
     return jsonify(statuses)
 
 
-@app.route("/train", methods=["POST"])
-def train_models():
-    threading.Thread(target=train_missing_models, daemon=True).start()
-    return jsonify({"status": "Training started in background."})
 
 
 if __name__ == "__main__":
     # Start model training in background
-    #threading.Thread(target=train_missing_models).start()
+    threading.Thread(target=train_missing_models).start()
 
     # Bind to 0.0.0.0 and correct port
     port = int(os.environ.get("PORT", 5000))
